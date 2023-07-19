@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"authservice/features/auth"
-	"authservice/features/jwt"
+	"authservice/src/features/auth"
+	"authservice/src/features/jwt"
 	"errors"
 	"fmt"
 	"net/http"

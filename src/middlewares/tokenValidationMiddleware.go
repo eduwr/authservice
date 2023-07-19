@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"authservice/features/jwt"
+	"authservice/src/features/jwt"
 	"net/http"
 )
 
