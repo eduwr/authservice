@@ -1,4 +1,4 @@
-package user
+package auth
 
 import (
 	"crypto/hmac"
@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type User struct {
+type AuthUser struct {
 	email        string
 	username     string
 	passwordhash string
@@ -19,24 +19,24 @@ type User struct {
 }
 
 // TODO: use a real database instead
-var userList []User
+var userList []AuthUser
 
-func GetUserObject(email string) (User, bool) {
+func GetAuthUserObject(email string) (AuthUser, bool) {
 	for _, user := range userList {
 		if user.email == email {
 			return user, true
 		}
 	}
 
-	return User{}, false
+	return AuthUser{}, false
 }
 
-func (u *User) ValidatePasswordHash(pswdhash string) bool {
+func (u *AuthUser) ValidatePasswordHash(pswdhash string) bool {
 	return u.passwordhash == pswdhash
 }
 
 func AddUserObject(email string, username string, passwordhash string, fullname string, role int) bool {
-	newUser := User{
+	newAuthUser := AuthUser{
 		email:        email,
 		passwordhash: passwordhash,
 		username:     username,
@@ -49,7 +49,7 @@ func AddUserObject(email string, username string, passwordhash string, fullname 
 			return false
 		}
 	}
-	userList = append(userList, newUser)
+	userList = append(userList, newAuthUser)
 	return true
 }
 
@@ -76,7 +76,7 @@ func GenerateToken(header string, payload map[string]string, secret string) (str
 	return tokenStr, nil
 }
 
-func validateToken(token string, secret string) (bool, error) {
+func ValidateToken(token string, secret string) (bool, error) {
 	splitToken := strings.Split(token, ".")
 	if len(splitToken) != 3 {
 		return false, nil
