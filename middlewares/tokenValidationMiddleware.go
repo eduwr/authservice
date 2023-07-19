@@ -14,6 +14,7 @@ func TokenValidationMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		token := r.Header["Token"][0]
+		// TODO: use envs for the secure string
 		check, err := jwt.ValidateToken(token, "Secure_Random_String")
 
 		if err != nil {
